@@ -15,6 +15,16 @@ class ApplicationController < ActionController::Base
     {locale: I18n.locale}
   end
 
+  def after_sign_in_path_for resource
+    sign_in_url = new_user_session_url
+    if request.referer == sign_in_url
+      (current_user.role==0 ||current_user.role==1) ? 
+        rails_admin.dashboard_path : root_path
+    else
+      stored_location_for(resource) || request.referer || root_path
+    end
+  end
+
   private
   def after_sign_in_path_for user
     user.trainee? ? root_path : rails_admin_path

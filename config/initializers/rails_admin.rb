@@ -62,5 +62,8 @@ RailsAdmin.config do |config|
     add_subjects_to_course do
       only Course
     end
+    show_in_app do
+      hide
+    end
   end
 end
